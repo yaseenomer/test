@@ -1,6 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {User} from '../models/User';
-import {NgForm} from '@angular/forms';
+import {UserService} from '../services/user.service';
+import {Observable, of} from 'rxjs';
+
 
 @Component({
   selector: 'app-users',
@@ -8,6 +10,9 @@ import {NgForm} from '@angular/forms';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
+
+  constructor(private userService: UserService) {
+  }
   users: User[];
   user: User = {
     firstName: '',
@@ -17,32 +22,17 @@ export class UsersComponent implements OnInit {
   currentClass = {};
   enableAdd = false;
   showForm = false;
-  @ViewChild('userForm', { static: false}) form: any;
 
-  constructor() {
+  @ViewChild('userForm', { static: false}) form: any;
+  static defaultAdded(value) {
+    value.registered = new Date();
+    value.balance = 100;
+    value.isActive = true;
   }
 
   ngOnInit() {
-    this.users = [
-      {
-        firstName: 'yaseen',
-        lastName: 'omer',
-        email: 'yaseeno373@gmail.com',
-        isActive: true,
-        balance: 10000,
-        registered: new Date('01/02/2019 08:30:00'),
-        hide: true
-      },
-      {
-        firstName: 'ali',
-        lastName: 'hassan',
-        email: 'ali@gmail.com',
-        isActive: false,
-        balance: 12000,
-        registered: new Date('01/11/2020 11:30:00'),
-        hide: true
-      }
-    ];
+     this.userService.getUsers().subscribe(users => this.users = users);
+
     this.addCurrentClass();
   }
   addCurrentClass() {
@@ -54,9 +44,9 @@ export class UsersComponent implements OnInit {
     if (! valid) {
       console.log('form is not invalid ');
     } else {
-      value.registered = new Date();
-      value.balance = 100;
-      this.users.unshift(value);
+      UsersComponent.defaultAdded(value);
+      this.userService.addUser(value);
+      this.form.reset();
     }
   }
   toggleHide(user: User) {
