@@ -9,38 +9,39 @@
         <input type="text"
                class="form-control"
                [(ngModel)]="user.firstName"
-               [ngClass]="{'is-invalid':firstName.errors && firstName.touched}"
-               name="firstname"
+               [ngClass]="{'is-invalid':userFirstName.errors && userFirstName.touched}"
+               name="firstName"
                required
                minlength="2"
-               #firstName="ngModel"
+               #userFirstName="ngModel"
         >
         <div [hidden]="!lastName.errors?.required" class="invalid-feedback"> The last Name is Required ...</div>
         <div [hidden]="!lastName.errors?.minlength" class="invalid-feedback"> The last Name most more than 3 charactor ...</div>
         {{user.firstName}}
       </div>
       <div class="form-group">
-        <label>Last Name</label>
+        <label>Last Name ? ....  </label>
         <input #lastName="ngModel"
                [(ngModel)]="user.lastName"
-               [ngClass]="{'is-invalid':lastName.errors && lastName.touched}"
+               [ngClass]="{'is-invalid':userLastName.errors && userLastName.touched}"
                class="form-control"
-               name="lastname"
+               name="lastName"
                required
                type="text"
                minlength="3"
+               #userLastName="ngModel"
         >
         <div [hidden]="!lastName.errors?.required" class="invalid-feedback"> The last Name is Required ...</div>
-        <div [hidden]="!lastName.errors?.minlength" class="invalid-feedback"> The last Name most more than 3 charactor ...</div>
+        <div [hidden]="!lastName.errors?.minlength" class="invalid-feedback"> The last Name most more than 3 char .. </div>
       </div>
       <div class="form-group">
         <label>email</label>
         <input type="text"
                class="form-control"
                [(ngModel)]="user.email"
-               [ngClass]="{'is-invalid':email.errors && email.touched}"
+               [ngClass]="{'is-invalid':userEmail.errors && userEmail.touched}"
                name="email"
-               #email="ngModel"
+               #userEmail="ngModel"
                required
                email
         >
@@ -64,7 +65,7 @@
           <small (click)="toggleHide(user)" [ngClass]="user.hide? 'fa fa-plus':'fa fa-minus'"></small>
         </h3>
         <ul class="list-group" *ngIf="! user.hide">
-          <li class="list-group-item">Email: {{user.age}}</li>
+          <li class="list-group-item">Email: {{user.email}}</li>
           <li class="list-group-item">{{user.balance | currency}}</li>
           <li class="list-group-item">{{user.registered  | date}}</li>
         </ul>
